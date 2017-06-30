@@ -1,0 +1,299 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="home.css">
+        <link rel="icon" href="logo.png" type="image/ico">
+        <title> PigeonBox - Home </title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var listOfUsers;
+                var listOfPhotos;
+                var listOfAlbums;
+
+                $.ajaxSetup({
+                    async: false
+                });
+
+                $.getJSON("http://jsonplaceholder.typicode.com/users", function(json) {
+                    listOfUsers = json;
+                });
+
+                $.getJSON("http://jsonplaceholder.typicode.com/photos", function(json) {
+                    listOfPhotos = json;
+                });
+
+                $.getJSON("http://jsonplaceholder.typicode.com/albums", function(json) {
+                    listOfAlbums = json;
+                });
+
+                var ctr1 = 0, ctr2 = 50;
+                var htmlAlbum = '';
+
+                for (var i = 0; i < 100; i++) {
+                    htmlAlbum += '<div id="albumWrapper"><table cellpadding="0" cellspacing="0" border="0"' +
+                        'style="border-collapse:collapse;"><tbody sizset="0" sizcache="15"><tr><td>';
+
+                    for (var j = ctr1; j < (ctr2 - 48); j++) {
+                        htmlAlbum += '<img id="gallery" src="' + listOfPhotos[j].thumbnailUrl + '">';
+                    }
+                    htmlAlbum +=  '</td></tr><tr><td>';
+                    for (var k = (ctr1 + 2); k < (ctr2 - 46); k++) {
+                        htmlAlbum += '<img id="gallery" src="' + listOfPhotos[k].thumbnailUrl + '">';
+                    }
+
+                    htmlAlbum += '</td></tr></tbody></table><button class="albumTitleBtn" id="' + (i+1) +
+                        '"onclick="openTab(\'albumWithPhoto\')" type="button">' + listOfAlbums[i].title + '</button></div>';
+
+                    ctr1 += 50;
+                    ctr2 += 50;
+                }
+                $('#album').append(htmlAlbum);
+
+                $('.albumTitleBtn').click(function() {
+                    $('#backToAlbum:last').remove();
+                    $('#alPicWrap:last').remove();
+
+                    var htmlAlPic = '';
+                    var index = $(this).attr('id');
+
+                    var b = 0;
+                    var c = 50;
+
+                    for (var a = 1; a <= 100; a++) {
+                        if (index == a.toString()) {
+                            htmlAlPic += '<button id="backToAlbum" onclick="openTab(\'album\')"type="button">' +
+                                'Back to Album</button><div id ="alPicWrap">';
+                            htmlAlPic += '<p id="albumTitle"><b>' + listOfAlbums[a-1].title + '</b></p>';
+                            for (var i = b; i < c; i++)
+                                htmlAlPic += '<img id="picGallery" onclick="showDetails(' + listOfPhotos[i].id + ',' +
+                                    listOfPhotos[i].albumId + ')" src="' + listOfPhotos[i].thumbnailUrl + '">';
+                            htmlAlPic += '</div>';
+                            $('#albumWithPhoto').append(htmlAlPic);
+                        }
+                        b += 50;
+                        c += 50;
+                    }
+                });
+            });
+
+            $(document).ready(function() {
+                viewImages();
+            });
+
+            $(document).ready(function(){
+                loadPost(counter);
+            });
+
+            var limit = 12;
+            var base = 0;
+            var root = 'https://jsonplaceholder.typicode.com';
+            window.counter=99;
+
+            function closewindow(){
+                var window = document.getElementById("bigPhoto");
+                if(window!= null){
+                    window.outerHTML="";
+                    delete window;
+                }
+            }
+
+            function viewImages(){
+                $.ajax({
+                    url: root + '/photos/',
+                    method: 'GET',
+                    success: function(response){
+                        var loadmore = document.getElementById("morebtn");
+                        var img = response;
+
+                        if(loadmore != null){
+                            document.getElementById("morebtn").remove();
+                        }
+
+                        console.log(response);
+                        response.reverse();
+                        console.log(response);
+                        response.forEach(function(){
+                            if(base < limit){
+                                $("#photo").append("<div id= 'photo_container' onclick= 'showDetails(" + response[base].id + "," + response[base].albumId + ")'> <img id='pic' src='" + response[base].thumbnailUrl + "'> </div> ");
+                                base++;
+                            }
+                            else{
+                            }
+                        })
+                        limit += 12;
+                        $("#photo").append("<div id='space'> </div> <button id='morebtn' onclick='viewImages()'> See More Photos </button>");
+                        $("#photo").append("<div id='space'> </div>");
+
+                    }
+                });
+            }
+
+            function showDetails(id, albumId){
+                $.ajax({
+                    url: root + '/photos',
+                    method: 'GET',
+                    success:
+                        function(response){
+                            $(".iWantOverLay").append("<div id ='bigPhoto'> <div id='close' onclick='closewindow()'> x </div> <div id='photo1'>   <img src='" + response[id-1].url + "' id='fullImage'> </div> <div id='pTitle'>" + response[id-1].title + "</div>");
+
+                            $.ajax({
+                                url: root + '/albums/',
+                                method: 'GET',
+                                success:
+                                    function(response){
+                                        console.log(albumId);
+                                        var newDiv = document.createElement("div");
+                                        newDiv.className = "pAlbum";
+                                        document.getElementById("bigPhoto").append(newDiv);
+                                        $(".pAlbum").append("<a href = 'profile.html?userId=" + response[albumId-1].userId + "'> <div id= 'pAlbum'> from album: " + response[albumId-1].title + "</div> </a>");
+                                        function passuserID(){
+                                            return response[albumId-1].userId;
+                                        }
+                                        console.log(response[albumId-1].userId);
+
+                                        $.ajax({
+                                            url: root + '/users/',
+                                            method: 'GET',
+                                            success:
+                                                function(response){
+                                                    userid = passuserID();
+                                                    console.log(userid);
+                                                    var newDiv = document.createElement("div");
+                                                    newDiv.className = "pUser";
+                                                    document.getElementById("bigPhoto").append(newDiv);
+                                                    $(".pUser").append("<a href = 'profile.html?userId=" + response[userid-1].id + "'> <div id= 'pUser'> @" + response[userid-1].username + "</div> </a>");
+                                                    console.log(response[userid-1].id);
+                                                }
+                                        });
+                                    }
+                            });
+                        }
+                });
+            }
+
+            window.counter=99;
+            $(document).ready(function(){
+                loadPost(counter);
+            });
+
+            function loadPost(counter) {
+                var root = 'https://jsonplaceholder.typicode.com';
+                var i;
+                $.ajax({
+                    url: root + '/posts/',
+                    method: 'GET'
+                }).then(function (data) {
+                    if (data.Response == "False" || window.counter < 0) {
+                        var new_post_container = document.createElement("div");
+                        new_post_container.id = "post_container";
+                        var new_nopost = document.createElement("li");
+                        new_nopost.id = "nopost";
+                        var new_post_title = document.createElement("li");
+                        new_post_title.id = "post_title";
+                        var new_post_body = document.createElement("li");
+                        new_post_body.id = "post_body";
+
+                        new_nopost.innerHTML = "No more post";
+                        new_post_title.innerHTML = "</br>";
+                        new_post_body.innerHTML = "</br>";
+
+                        $(new_post_container).append(new_post_title);
+                        $(new_post_container).append(new_nopost);
+                        $(new_post_container).append(new_post_body);
+
+
+                        $("#post").append(new_post_container);
+                        $("#post_button").hide();
+                    }
+                    else {
+                        for (i = counter; i > counter - 10; i--) {
+
+                            var new_post_container = document.createElement("ul");
+                            new_post_container.id = "post_container";
+                            var new_username = document.createElement("li");
+                            new_username.id = "username";
+                            var new_post_title = document.createElement("li");
+                            new_post_title.id = "post_title";
+                            var new_post_body = document.createElement("li");
+                            new_post_body.id = "post_body";
+
+                            //new_username.innerHTML = data[i].userId;
+                            getUsername(data[i].userId, new_username);
+                            new_post_title.innerHTML = data[i].title;
+                            new_post_body.innerHTML = data[i].body;
+
+
+                            $(new_post_container).append(new_username);
+                            $(new_post_container).append(new_post_title);
+                            $(new_post_container).append(new_post_body);
+
+
+                            $("#post").append(new_post_container);
+
+
+                        }
+                        window.counter = i;
+                    }
+                });
+
+                function getUsername(x, y) {
+                    $.ajax({
+                        url: root + '/users/',
+                        method: 'GET'
+                    }).then(function (data) {
+                        y.innerHTML = "<a href='profile.html?userId=" + data[x - 1].id + "'>" + data[x - 1].username + "<a>";
+                    });
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <header><img src="logo.png" id="logo">PigeonBox</header>
+        <div class = "iWantOverLay">
+            <div id="workingarea">
+                <div id="control">
+                    <button class="postbtn" onclick="openTab('post')"> Posts </button>
+                    <button class="imgbtn" onclick="openTab('photo')"> Photos </button>
+                    <button class="albumbtn" onclick="openTab('album')"> Albums </button>
+                </div>
+
+                <div id="filler">
+                    <div id="post" class="tabs">
+                        <ul id="post_container" >
+                            <li id="username"></li>
+                            <li id="post_title"></li>
+                            <li id="post_body"></li>
+                            <li id="nopost"></li>
+                        </ul>
+
+                        <button id="post_button" onclick="loadPost(counter)" align ="center"> Load more post... </button>
+                        <div id="spacefill"> </div>
+                    </div>
+                </div>
+
+                <div id="photo" class="tabs" style="display:none"></div>
+
+                <div id="album" class="tabs" style="display:none"></div>
+
+                <div id="albumWithPhoto" class="tabs" style="display:none"></div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        function openTab(tab){
+            var i, activetab;
+            var x = document.getElementsByClassName("tabs");
+            for(i=0; i<x.length; i++){
+                x[i].style.display ="none";
+            }
+            activetab = document.getElementsByClassName("activetab");
+            for(i=0; i<activetab.length;i++){
+                activetab[i].className = activetab[i].className.replace("active", "");
+            }
+            document.getElementById(tab).style.display = "block";
+        }
+    </script>
+</html>

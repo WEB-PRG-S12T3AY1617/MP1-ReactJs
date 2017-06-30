@@ -1,0 +1,336 @@
+header {
+    background-color: #AED6F1;
+    color: white;
+    height: 40px;
+    align-items: center;
+    display: flex;
+    font-size: 19pt;
+    font-family: Futura;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+body {
+    background-color: #FBFCFC;
+}
+
+#logo{
+    height: 40px;
+    width: 40px;
+    position: relative;
+    padding-left: 30px;
+    padding-right: 10px;
+}
+
+#post {
+    background-color: #fbfcfc;
+    margin: auto;
+    font-family: Helvetica;
+    position: absolute;
+    top: 100px;
+    left: 30px;
+    padding-bottom: 100px;
+    right: 30px;
+}
+
+#post_container{
+    display:flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    flex-wrap: wrap;
+    border: 5px solid #AED6F1;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 15px;
+}
+
+li{
+    list-style: none;
+}
+
+#profile{
+    padding-top: 10px;
+    padding-left: 10px;
+    display: flex;
+    background-color: aliceblue;
+    top: 35;
+    width: 35%;
+    height: 100%;
+    position: relative;
+    font-size: 11.5pt;
+    font-family: Helvetica;
+}
+
+#spacefill{
+    padding-top: 50px;
+}
+
+#workingarea{
+    display: flex;
+    position:relative;
+
+}
+#post_button{
+    position: absolute;
+    background-color: #CACFD2;
+    color: #fbfcfc;
+    margin-left: 39%;
+    display: block;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 15px;
+    font-family: Helvetica;
+    bottom: 37.5;
+    left: 30;
+    right: 30;
+}
+
+#nopost
+{
+    position: relative;
+    bottom: 10px;
+    left: 50%;
+}
+
+.postbtn, .imgbtn, .albumbtn{
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 15px;
+    font-family: Helvetica;
+}
+
+.postbtn:hover, .imgbtn:hover, .albumbtn:hover{
+    background-color: #ddd;
+}
+
+.postbtn:active, .imgbtn:active, .albumbtn:active{
+    background-color: #ccc;
+}
+
+#control{
+    position: relative;
+    height: 45px;
+    top: 35px;
+    width: 100%;
+    overflow: hidden;
+    background-color: #F2F3F4;
+}
+
+#morebtn{
+    background-color: #CACFD2;
+    margin-left: 39%;
+    display: block;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 15px;
+    font-family: Helvetica;
+    color:  #fbfcfc;
+    bottom: 5;
+    left: 30;
+    right: 30;
+
+}
+
+#morebtn: hover{
+    box-shadow: 0 0 3px 2px rgba(0,0,0,3);
+}
+
+#fullImage{
+    position: relative;
+    display: inline;
+    bottom: 77.5px;
+}
+
+#pUser{
+    font-size: 18pt;
+    font-style: italic;
+    font-family: Helvetica;
+    position: absolute;
+    z-index: 10001;
+    bottom: 500px;
+    left:  50%;
+
+}
+
+#photo{
+    margin: auto;
+    font-family: Helvetica;
+    position: absolute;
+    top: 100px;
+    left: 30px;
+    padding-left: 40px;
+    right: 30px;
+}
+
+#album, #albumWithPhoto {
+    margin: auto;
+    position: absolute;
+    top: 115px;
+    left: 35px;
+    padding-left: 40px;
+    right: 30px;
+}
+
+#photo1{
+    padding-left: 50px;
+
+}
+
+#pAlbum{
+    position: absolute;
+    float: right;
+    z-index: 10001;
+    bottom: 300px;
+    left: 50%;
+    font-size: 16pt;
+}
+
+#pTitle{
+    position: relative;
+    bottom: 50%;
+    left: 50%;
+    font-size: 20pt;
+
+
+}
+
+#space{
+    padding-bottom: 25px;
+    padding-top: 10px;
+}
+
+#photo{
+    background-color: ghostwhite;
+    margin: auto;
+    font-family: georgia;
+    top: 85px;
+    /*	left: 150px;
+    */
+    display: flex;
+    height:72.5%;
+    width: 72.5%;
+    padding-right: 20px;
+    padding-top: 40px;
+}
+
+#photo_container{
+    position: relative;
+    display: inline-block;
+    border-top: 5px solid #AED6F1;
+    border-bottom: 2.5px solid #AED6F1;
+    padding: 3px;
+    border-radius: 8px;
+}
+
+#bigPhoto{
+    position: fixed;
+    z-index: 10000;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #CACFD2;
+}
+
+#close{
+    position: absolute;
+    background-color: inherit;
+    z-index: 10001;
+    right: 15px;
+    font-size: 24pt;
+    top: 10px;
+    cursor: pointer;
+}
+
+footer{
+    font-family: Helvetica;
+    background-color: #f2f2f2;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    padding: 0.5rem;
+    font-size: 10pt;
+
+}
+
+#gallery {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2px;
+    width: 150px;
+}
+
+.albumTitleBtn {
+    background-color: #CACFD2;
+    border: none;
+    color: #fbfcfc;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 9px;
+    width: 170px;
+    border-radius: 2px;
+}
+
+.albumTitleBtn:hover, #backToAlbum:hover, #picGallery:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+#backToAlbum {
+    background-color: #CACFD2;
+    border: none;
+    color: #fbfcfc;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 9px;
+    width: 100px;
+    border-radius: 2px;
+}
+
+#albumWrapper {
+    display: inline-block;
+    padding-right: 5%;
+    padding-bottom: 5%;
+}
+
+table {
+    border-top: 5px solid #AED6F1;
+    border-bottom: 2.5px solid #AED6F1;
+    border-radius: 8px;
+}
+
+#gallery {
+    margin: 0px;
+    border: 0px;
+    width: 80px;
+    height: 80px;
+}
+
+#picGallery {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    display: inline-block;
+    border-top: 5px solid #AED6F1;
+    border-bottom: 2.5px solid #AED6F1;
+    padding: 3px;
+    border-radius: 8px;
+}
